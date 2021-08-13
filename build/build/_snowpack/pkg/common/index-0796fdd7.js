@@ -1,6 +1,6 @@
 import { r as react, c as createCommonjsModule, g as getDefaultExportFromCjs } from './index-08d32ee4.js';
-import { b as _objectWithoutProperties, c as _extends, p as propTypes, r as require$$4, d as refType, a as interopRequireDefault, _ as _extends_1, o as objectWithoutProperties, i as interopRequireWildcard, w as withStyles_1, e as esm } from './withStyles-2b6a4506.js';
-import { w as withStyles, u as useFormControl, f as formControlState, c as capitalize, F as FormControlContext } from './capitalize-86a70430.js';
+import { b as _objectWithoutProperties, c as _extends, p as propTypes, r as require$$4, d as refType, a as interopRequireDefault, _ as _extends_1, o as objectWithoutProperties, i as interopRequireWildcard, w as withStyles_1, e as esm } from './withStyles-0887411d.js';
+import { w as withStyles, u as useFormControl, f as formControlState, c as capitalize, F as FormControlContext } from './capitalize-fb882d94.js';
 
 // TODO v5: consider to make it private
 function setRef(ref, value) {
@@ -58,12 +58,26 @@ function debounce(func) {
   return debounced;
 }
 
+function deprecatedPropType(validator, reason) {
+
+  return function (props, propName, componentName, location, propFullName) {
+    var componentNameSafe = componentName || '<<anonymous>>';
+    var propFullNameSafe = propFullName || propName;
+
+    if (typeof props[propName] !== 'undefined') {
+      return new Error("The ".concat(location, " `").concat(propFullNameSafe, "` of ") + "`".concat(componentNameSafe, "` is deprecated. ").concat(reason));
+    }
+
+    return null;
+  };
+}
+
 function getStyleValue(computedStyle, property) {
   return parseInt(computedStyle[property], 10) || 0;
 }
 
-var useEnhancedEffect$1 = typeof window !== 'undefined' ? react.useLayoutEffect : react.useEffect;
-var styles$1 = {
+var useEnhancedEffect = typeof window !== 'undefined' ? react.useLayoutEffect : react.useEffect;
+var styles = {
   /* Styles applied to the shadow textarea element. */
   shadow: {
     // Visibility needed to hide the extra text area on iPads
@@ -83,13 +97,16 @@ var TextareaAutosize = /*#__PURE__*/react.forwardRef(function TextareaAutosize(p
   var onChange = props.onChange,
       rows = props.rows,
       rowsMax = props.rowsMax,
-      _props$rowsMin = props.rowsMin,
-      rowsMinProp = _props$rowsMin === void 0 ? 1 : _props$rowsMin,
+      rowsMinProp = props.rowsMin,
+      maxRowsProp = props.maxRows,
+      _props$minRows = props.minRows,
+      minRowsProp = _props$minRows === void 0 ? 1 : _props$minRows,
       style = props.style,
       value = props.value,
-      other = _objectWithoutProperties(props, ["onChange", "rows", "rowsMax", "rowsMin", "style", "value"]);
+      other = _objectWithoutProperties(props, ["onChange", "rows", "rowsMax", "rowsMin", "maxRows", "minRows", "style", "value"]);
 
-  var rowsMin = rows || rowsMinProp;
+  var maxRows = maxRowsProp || rowsMax;
+  var minRows = rows || rowsMinProp || minRowsProp;
 
   var _React$useRef = react.useRef(value != null),
       isControlled = _React$useRef.current;
@@ -128,12 +145,12 @@ var TextareaAutosize = /*#__PURE__*/react.forwardRef(function TextareaAutosize(p
 
     var outerHeight = innerHeight;
 
-    if (rowsMin) {
-      outerHeight = Math.max(Number(rowsMin) * singleRowHeight, outerHeight);
+    if (minRows) {
+      outerHeight = Math.max(Number(minRows) * singleRowHeight, outerHeight);
     }
 
-    if (rowsMax) {
-      outerHeight = Math.min(Number(rowsMax) * singleRowHeight, outerHeight);
+    if (maxRows) {
+      outerHeight = Math.min(Number(maxRows) * singleRowHeight, outerHeight);
     }
 
     outerHeight = Math.max(outerHeight, singleRowHeight); // Take the box sizing into account for applying this value as a style.
@@ -159,7 +176,7 @@ var TextareaAutosize = /*#__PURE__*/react.forwardRef(function TextareaAutosize(p
 
       return prevState;
     });
-  }, [rowsMax, rowsMin, props.placeholder]);
+  }, [maxRows, minRows, props.placeholder]);
   react.useEffect(function () {
     var handleResize = debounce(function () {
       renders.current = 0;
@@ -171,7 +188,7 @@ var TextareaAutosize = /*#__PURE__*/react.forwardRef(function TextareaAutosize(p
       window.removeEventListener('resize', handleResize);
     };
   }, [syncHeight]);
-  useEnhancedEffect$1(function () {
+  useEnhancedEffect(function () {
     syncHeight();
   });
   react.useEffect(function () {
@@ -195,7 +212,7 @@ var TextareaAutosize = /*#__PURE__*/react.forwardRef(function TextareaAutosize(p
     onChange: handleChange,
     ref: handleRef // Apply the rows prop to get a "correct" first SSR paint
     ,
-    rows: rowsMin,
+    rows: minRows,
     style: _extends({
       height: state.outerHeightStyle,
       // Need a large enough difference to allow scrolling.
@@ -208,10 +225,10 @@ var TextareaAutosize = /*#__PURE__*/react.forwardRef(function TextareaAutosize(p
     readOnly: true,
     ref: shadowRef,
     tabIndex: -1,
-    style: _extends({}, styles$1.shadow, style)
+    style: _extends({}, styles.shadow, style)
   }));
 });
-TextareaAutosize.propTypes = {
+ TextareaAutosize.propTypes = {
   // ----------------------------- Warning --------------------------------
   // | These PropTypes are generated from the TypeScript type definitions |
   // |     To update them edit the d.ts file and run "yarn proptypes"     |
@@ -221,6 +238,16 @@ TextareaAutosize.propTypes = {
    * @ignore
    */
   className: propTypes.string,
+
+  /**
+   * Maximum number of rows to display.
+   */
+  maxRows: propTypes.oneOfType([propTypes.number, propTypes.string]),
+
+  /**
+   * Minimum number of rows to display.
+   */
+  minRows: propTypes.oneOfType([propTypes.number, propTypes.string]),
 
   /**
    * @ignore
@@ -233,21 +260,22 @@ TextareaAutosize.propTypes = {
   placeholder: propTypes.string,
 
   /**
-   * Use `rowsMin` instead. The prop will be removed in v5.
-   *
-   * @deprecated
+   * Minimum number of rows to display.
+   * @deprecated Use `minRows` instead.
    */
-  rows: propTypes.oneOfType([propTypes.number, propTypes.string]),
+  rows: deprecatedPropType(propTypes.oneOfType([propTypes.number, propTypes.string]), 'Use `minRows` instead.'),
 
   /**
    * Maximum number of rows to display.
+   * @deprecated Use `maxRows` instead.
    */
-  rowsMax: propTypes.oneOfType([propTypes.number, propTypes.string]),
+  rowsMax: deprecatedPropType(propTypes.oneOfType([propTypes.number, propTypes.string]), 'Use `maxRows` instead.'),
 
   /**
    * Minimum number of rows to display.
+   * @deprecated Use `minRows` instead.
    */
-  rowsMin: propTypes.oneOfType([propTypes.number, propTypes.string]),
+  rowsMin: deprecatedPropType(propTypes.oneOfType([propTypes.number, propTypes.string]), 'Use `minRows` instead.'),
 
   /**
    * @ignore
@@ -281,7 +309,7 @@ function isFilled(obj) {
   return obj && (hasValue(obj.value) && obj.value !== '' || SSR && hasValue(obj.defaultValue) && obj.defaultValue !== '');
 } // Determine if an Input is adorned on start.
 
-var styles = function styles(theme) {
+var styles$1 = function styles(theme) {
   var light = theme.palette.type === 'light';
   var placeholder = {
     color: 'currentColor',
@@ -451,7 +479,7 @@ var styles = function styles(theme) {
     inputHiddenLabel: {}
   };
 };
-var useEnhancedEffect = typeof window === 'undefined' ? react.useEffect : react.useLayoutEffect;
+var useEnhancedEffect$1 = typeof window === 'undefined' ? react.useEffect : react.useLayoutEffect;
 /**
  * `InputBase` contains as few styles as possible.
  * It aims to be a simple building block for creating an input.
@@ -463,22 +491,22 @@ var InputBase = /*#__PURE__*/react.forwardRef(function InputBase(props, ref) {
       autoComplete = props.autoComplete,
       autoFocus = props.autoFocus,
       classes = props.classes,
-      className = props.className;
-      props.color;
-      var defaultValue = props.defaultValue,
+      className = props.className,
+      color = props.color,
+      defaultValue = props.defaultValue,
       disabled = props.disabled,
-      endAdornment = props.endAdornment;
-      props.error;
-      var _props$fullWidth = props.fullWidth,
+      endAdornment = props.endAdornment,
+      error = props.error,
+      _props$fullWidth = props.fullWidth,
       fullWidth = _props$fullWidth === void 0 ? false : _props$fullWidth,
       id = props.id,
       _props$inputComponent = props.inputComponent,
       inputComponent = _props$inputComponent === void 0 ? 'input' : _props$inputComponent,
       _props$inputProps = props.inputProps,
       inputPropsProp = _props$inputProps === void 0 ? {} : _props$inputProps,
-      inputRefProp = props.inputRef;
-      props.margin;
-      var _props$multiline = props.multiline,
+      inputRefProp = props.inputRef,
+      margin = props.margin,
+      _props$multiline = props.multiline,
       multiline = _props$multiline === void 0 ? false : _props$multiline,
       name = props.name,
       onBlur = props.onBlur,
@@ -493,11 +521,13 @@ var InputBase = /*#__PURE__*/react.forwardRef(function InputBase(props, ref) {
       rows = props.rows,
       rowsMax = props.rowsMax,
       rowsMin = props.rowsMin,
+      maxRows = props.maxRows,
+      minRows = props.minRows,
       startAdornment = props.startAdornment,
       _props$type = props.type,
       type = _props$type === void 0 ? 'text' : _props$type,
       valueProp = props.value,
-      other = _objectWithoutProperties(props, ["aria-describedby", "autoComplete", "autoFocus", "classes", "className", "color", "defaultValue", "disabled", "endAdornment", "error", "fullWidth", "id", "inputComponent", "inputProps", "inputRef", "margin", "multiline", "name", "onBlur", "onChange", "onClick", "onFocus", "onKeyDown", "onKeyUp", "placeholder", "readOnly", "renderSuffix", "rows", "rowsMax", "rowsMin", "startAdornment", "type", "value"]);
+      other = _objectWithoutProperties(props, ["aria-describedby", "autoComplete", "autoFocus", "classes", "className", "color", "defaultValue", "disabled", "endAdornment", "error", "fullWidth", "id", "inputComponent", "inputProps", "inputRef", "margin", "multiline", "name", "onBlur", "onChange", "onClick", "onFocus", "onKeyDown", "onKeyUp", "placeholder", "readOnly", "renderSuffix", "rows", "rowsMax", "rowsMin", "maxRows", "minRows", "startAdornment", "type", "value"]);
 
   var value = inputPropsProp.value != null ? inputPropsProp.value : valueProp;
 
@@ -561,7 +591,7 @@ var InputBase = /*#__PURE__*/react.forwardRef(function InputBase(props, ref) {
       onEmpty();
     }
   }, [onFilled, onEmpty]);
-  useEnhancedEffect(function () {
+  useEnhancedEffect$1(function () {
     if (isControlled) {
       checkDirty({
         value: value
@@ -613,7 +643,7 @@ var InputBase = /*#__PURE__*/react.forwardRef(function InputBase(props, ref) {
       var element = event.target || inputRef.current;
 
       if (element == null) {
-        throw new Error("Material-UI: Expected valid input target. Did you use a custom `inputComponent` and forget to forward refs? See https://material-ui.com/r/input-component-ref-interface for more info." );
+        throw new Error( "Material-UI: Expected valid input target. Did you use a custom `inputComponent` and forget to forward refs? See https://material-ui.com/r/input-component-ref-interface for more info." );
       }
 
       checkDirty({
@@ -667,12 +697,13 @@ var InputBase = /*#__PURE__*/react.forwardRef(function InputBase(props, ref) {
       ref: null
     });
   } else if (multiline) {
-    if (rows && !rowsMax && !rowsMin) {
+    if (rows && !maxRows && !minRows && !rowsMax && !rowsMin) {
       InputComponent = 'textarea';
     } else {
       inputProps = _extends({
-        rows: rows,
-        rowsMax: rowsMax
+        minRows: rows || minRows,
+        rowsMax: rowsMax,
+        maxRows: maxRows
       }, inputProps);
       InputComponent = TextareaAutosize;
     }
@@ -726,7 +757,7 @@ var InputBase = /*#__PURE__*/react.forwardRef(function InputBase(props, ref) {
     startAdornment: startAdornment
   })) : null);
 });
-InputBase.propTypes = {
+ InputBase.propTypes = {
   // ----------------------------- Warning --------------------------------
   // | These PropTypes are generated from the TypeScript type definitions |
   // |     To update them edit the d.ts file and run "yarn proptypes"     |
@@ -819,6 +850,16 @@ InputBase.propTypes = {
   margin: propTypes.oneOf(['dense', 'none']),
 
   /**
+   * Maximum number of rows to display when multiline option is set to true.
+   */
+  maxRows: propTypes.oneOfType([propTypes.number, propTypes.string]),
+
+  /**
+   * Minimum number of rows to display when multiline option is set to true.
+   */
+  minRows: propTypes.oneOfType([propTypes.number, propTypes.string]),
+
+  /**
    * If `true`, a textarea element will be rendered.
    */
   multiline: propTypes.bool,
@@ -890,12 +931,14 @@ InputBase.propTypes = {
   rows: propTypes.oneOfType([propTypes.number, propTypes.string]),
 
   /**
-   * Maximum number of rows to display when multiline option is set to true.
+   * Maximum number of rows to display.
+   * @deprecated Use `maxRows` instead.
    */
   rowsMax: propTypes.oneOfType([propTypes.number, propTypes.string]),
 
   /**
-   * Minimum number of rows to display when multiline option is set to true.
+   * Minimum number of rows to display.
+   * @deprecated Use `minRows` instead.
    */
   rowsMin: propTypes.oneOfType([propTypes.number, propTypes.string]),
 
@@ -914,7 +957,7 @@ InputBase.propTypes = {
    */
   value: propTypes.any
 } ;
-var require$$5 = withStyles(styles, {
+var require$$5 = withStyles(styles$1, {
   name: 'MuiInputBase'
 })(InputBase);
 
@@ -1077,7 +1120,7 @@ var Input = /*#__PURE__*/React.forwardRef(function Input(props, ref) {
     type: type
   }, other));
 });
-Input.propTypes = {
+ Input.propTypes = {
   // ----------------------------- Warning --------------------------------
   // | These PropTypes are generated from the TypeScript type definitions |
   // |     To update them edit the d.ts file and run "yarn proptypes"     |
@@ -1165,6 +1208,11 @@ Input.propTypes = {
   margin: _propTypes.default.oneOf(['dense', 'none']),
 
   /**
+   * Maximum number of rows to display when multiline option is set to true.
+   */
+  maxRows: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.string]),
+
+  /**
    * If `true`, a textarea element will be rendered.
    */
   multiline: _propTypes.default.bool,
@@ -1202,11 +1250,6 @@ Input.propTypes = {
    * Number of rows to display when multiline option is set to true.
    */
   rows: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.string]),
-
-  /**
-   * Maximum number of rows to display when multiline option is set to true.
-   */
-  rowsMax: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.string]),
 
   /**
    * Start `InputAdornment` for this component.

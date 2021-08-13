@@ -39,19 +39,17 @@ module.exports["default"] = module.exports, module.exports.__esModule = true;
 var interopRequireWildcard = createCommonjsModule(function (module) {
 var _typeof = _typeof_1["default"];
 
-function _getRequireWildcardCache() {
+function _getRequireWildcardCache(nodeInterop) {
   if (typeof WeakMap !== "function") return null;
-  var cache = new WeakMap();
-
-  _getRequireWildcardCache = function _getRequireWildcardCache() {
-    return cache;
-  };
-
-  return cache;
+  var cacheBabelInterop = new WeakMap();
+  var cacheNodeInterop = new WeakMap();
+  return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+    return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+  })(nodeInterop);
 }
 
-function _interopRequireWildcard(obj) {
-  if (obj && obj.__esModule) {
+function _interopRequireWildcard(obj, nodeInterop) {
+  if (!nodeInterop && obj && obj.__esModule) {
     return obj;
   }
 
@@ -61,7 +59,7 @@ function _interopRequireWildcard(obj) {
     };
   }
 
-  var cache = _getRequireWildcardCache();
+  var cache = _getRequireWildcardCache(nodeInterop);
 
   if (cache && cache.has(obj)) {
     return cache.get(obj);
@@ -71,7 +69,7 @@ function _interopRequireWildcard(obj) {
   var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
 
   for (var key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+    if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
       var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
 
       if (desc && (desc.get || desc.set)) {
@@ -163,7 +161,7 @@ module.exports = _objectWithoutProperties;
 module.exports["default"] = module.exports, module.exports.__esModule = true;
 });
 
-var reactIs_development$2 = createCommonjsModule(function (module, exports) {
+var reactIs_development = createCommonjsModule(function (module, exports) {
 
 
 
@@ -336,10 +334,10 @@ exports.typeOf = typeOf;
 }
 });
 
-var reactIs$2 = createCommonjsModule(function (module) {
+var reactIs = createCommonjsModule(function (module) {
 
 {
-  module.exports = reactIs_development$2;
+  module.exports = reactIs_development;
 }
 });
 
@@ -350,18 +348,18 @@ var reactIs$2 = createCommonjsModule(function (module) {
  * LICENSE file in the root directory of this source tree.
  */
 
-var ReactPropTypesSecret$1 = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 
-var ReactPropTypesSecret_1 = ReactPropTypesSecret$1;
+var ReactPropTypesSecret_1 = ReactPropTypesSecret;
 
-var printWarning$1 = function() {};
+var printWarning = function() {};
 
 {
-  var ReactPropTypesSecret = ReactPropTypesSecret_1;
+  var ReactPropTypesSecret$1 = ReactPropTypesSecret_1;
   var loggedTypeFailures = {};
-  var has$1 = Function.call.bind(Object.prototype.hasOwnProperty);
+  var has = Function.call.bind(Object.prototype.hasOwnProperty);
 
-  printWarning$1 = function(text) {
+  printWarning = function(text) {
     var message = 'Warning: ' + text;
     if (typeof console !== 'undefined') {
       console.error(message);
@@ -389,7 +387,7 @@ var printWarning$1 = function() {};
 function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
   {
     for (var typeSpecName in typeSpecs) {
-      if (has$1(typeSpecs, typeSpecName)) {
+      if (has(typeSpecs, typeSpecName)) {
         var error;
         // Prop type validation may throw. In case they do, we don't want to
         // fail the render phase where it didn't fail before. So we log it.
@@ -405,12 +403,12 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
             err.name = 'Invariant Violation';
             throw err;
           }
-          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
+          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret$1);
         } catch (ex) {
           error = ex;
         }
         if (error && !(error instanceof Error)) {
-          printWarning$1(
+          printWarning(
             (componentName || 'React class') + ': type specification of ' +
             location + ' `' + typeSpecName + '` is invalid; the type checker ' +
             'function must return `null` or an `Error` but returned a ' + typeof error + '. ' +
@@ -426,7 +424,7 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 
           var stack = getStack ? getStack() : '';
 
-          printWarning$1(
+          printWarning(
             'Failed ' + location + ' type: ' + error.message + (stack != null ? stack : '')
           );
         }
@@ -448,11 +446,11 @@ checkPropTypes.resetWarningCache = function() {
 
 var checkPropTypes_1 = checkPropTypes;
 
-var has = Function.call.bind(Object.prototype.hasOwnProperty);
-var printWarning = function() {};
+var has$1 = Function.call.bind(Object.prototype.hasOwnProperty);
+var printWarning$1 = function() {};
 
 {
-  printWarning = function(text) {
+  printWarning$1 = function(text) {
     var message = 'Warning: ' + text;
     if (typeof console !== 'undefined') {
       console.error(message);
@@ -620,7 +618,7 @@ var factoryWithTypeCheckers = function(isValidElement, throwOnDirectAccess) {
           );
           err.name = 'Invariant Violation';
           throw err;
-        } else if (typeof console !== 'undefined') {
+        } else if ( typeof console !== 'undefined') {
           // Old behavior for people using React.PropTypes
           var cacheKey = componentName + ':' + propName;
           if (
@@ -628,7 +626,7 @@ var factoryWithTypeCheckers = function(isValidElement, throwOnDirectAccess) {
             // Avoid spamming the console because they are often not actionable except for lib authors
             manualPropTypeWarningCount < 3
           ) {
-            printWarning(
+            printWarning$1(
               'You are manually calling a React.PropTypes validation ' +
               'function for the `' + propFullName + '` prop on `' + componentName  + '`. This is deprecated ' +
               'and will throw in the standalone `prop-types` package. ' +
@@ -716,7 +714,7 @@ var factoryWithTypeCheckers = function(isValidElement, throwOnDirectAccess) {
   function createElementTypeTypeChecker() {
     function validate(props, propName, componentName, location, propFullName) {
       var propValue = props[propName];
-      if (!reactIs$2.isValidElementType(propValue)) {
+      if (!reactIs.isValidElementType(propValue)) {
         var propType = getPropType(propValue);
         return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a single ReactElement type.'));
       }
@@ -741,12 +739,12 @@ var factoryWithTypeCheckers = function(isValidElement, throwOnDirectAccess) {
     if (!Array.isArray(expectedValues)) {
       {
         if (arguments.length > 1) {
-          printWarning(
+          printWarning$1(
             'Invalid arguments supplied to oneOf, expected an array, got ' + arguments.length + ' arguments. ' +
             'A common mistake is to write oneOf(x, y, z) instead of oneOf([x, y, z]).'
           );
         } else {
-          printWarning('Invalid argument supplied to oneOf, expected an array.');
+          printWarning$1('Invalid argument supplied to oneOf, expected an array.');
         }
       }
       return emptyFunctionThatReturnsNull;
@@ -783,7 +781,7 @@ var factoryWithTypeCheckers = function(isValidElement, throwOnDirectAccess) {
         return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an object.'));
       }
       for (var key in propValue) {
-        if (has(propValue, key)) {
+        if (has$1(propValue, key)) {
           var error = typeChecker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret_1);
           if (error instanceof Error) {
             return error;
@@ -797,14 +795,14 @@ var factoryWithTypeCheckers = function(isValidElement, throwOnDirectAccess) {
 
   function createUnionTypeChecker(arrayOfTypeCheckers) {
     if (!Array.isArray(arrayOfTypeCheckers)) {
-      printWarning('Invalid argument supplied to oneOfType, expected an instance of array.') ;
+       printWarning$1('Invalid argument supplied to oneOfType, expected an instance of array.') ;
       return emptyFunctionThatReturnsNull;
     }
 
     for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
       var checker = arrayOfTypeCheckers[i];
       if (typeof checker !== 'function') {
-        printWarning(
+        printWarning$1(
           'Invalid argument supplied to oneOfType. Expected an array of check functions, but ' +
           'received ' + getPostfixForTypeWarning(checker) + ' at index ' + i + '.'
         );
@@ -1034,7 +1032,7 @@ var propTypes = createCommonjsModule(function (module) {
  */
 
 {
-  var ReactIs = reactIs$2;
+  var ReactIs = reactIs;
 
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
@@ -1109,24 +1107,24 @@ function _extends() {
   return _extends.apply(this, arguments);
 }
 
-function _typeof$1(obj) {
+function _typeof(obj) {
   "@babel/helpers - typeof";
 
   if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof$1 = function _typeof(obj) {
+    _typeof = function _typeof(obj) {
       return typeof obj;
     };
   } else {
-    _typeof$1 = function _typeof(obj) {
+    _typeof = function _typeof(obj) {
       return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
     };
   }
 
-  return _typeof$1(obj);
+  return _typeof(obj);
 }
 
 function isPlainObject(item) {
-  return item && _typeof$1(item) === 'object' && item.constructor === Object;
+  return item && _typeof(item) === 'object' && item.constructor === Object;
 }
 function deepmerge(target, source) {
   var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {
@@ -1152,7 +1150,7 @@ function deepmerge(target, source) {
   return output;
 }
 
-function isClassComponent$1(elementType) {
+function isClassComponent(elementType) {
   // elementType.prototype?.isReactComponent
   var _elementType$prototyp = elementType.prototype,
       prototype = _elementType$prototyp === void 0 ? {} : _elementType$prototyp;
@@ -1179,7 +1177,7 @@ function acceptingRef(props, propName, componentName, location, propFullName) {
    *
    */
 
-  if (typeof elementType === 'function' && !isClassComponent$1(elementType)) {
+  if (typeof elementType === 'function' && !isClassComponent(elementType)) {
     warningHint = 'Did you accidentally use a plain function component for an element instead?';
   }
 
@@ -1193,7 +1191,7 @@ function acceptingRef(props, propName, componentName, location, propFullName) {
 var elementAcceptingRef = chainPropTypes(propTypes.element, acceptingRef);
 elementAcceptingRef.isRequired = chainPropTypes(propTypes.element.isRequired, acceptingRef);
 
-function isClassComponent(elementType) {
+function isClassComponent$1(elementType) {
   // elementType.prototype?.isReactComponent
   var _elementType$prototyp = elementType.prototype,
       prototype = _elementType$prototyp === void 0 ? {} : _elementType$prototyp;
@@ -1219,7 +1217,7 @@ function elementTypeAcceptingRef(props, propName, componentName, location, propF
    *
    */
 
-  if (typeof propValue === 'function' && !isClassComponent(propValue)) {
+  if (typeof propValue === 'function' && !isClassComponent$1(propValue)) {
     warningHint = 'Did you accidentally provide a plain function component instead?';
   }
 
@@ -1560,7 +1558,7 @@ function getDisplayName(Component) {
     return getFunctionComponentName(Component, 'Component');
   }
 
-  if (_typeof$1(Component) === 'object') {
+  if (_typeof(Component) === 'object') {
     switch (Component.$$typeof) {
       case reactIs$1.ForwardRef:
         return getWrappedName(Component, Component.render, 'ForwardRef');
@@ -1604,7 +1602,7 @@ var refType = propTypes.oneOfType([propTypes.func, propTypes.object]);
  * LICENSE file in the root directory of this source tree.
  */
 
-var esm$2 = /*#__PURE__*/Object.freeze({
+var esm = /*#__PURE__*/Object.freeze({
   __proto__: null,
   chainPropTypes: chainPropTypes,
   deepmerge: deepmerge,
@@ -1641,9 +1639,9 @@ var pseudoClasses = ['checked', 'disabled', 'error', 'focused', 'focusVisible', 
 function createGenerateClassName() {
   var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var _options$disableGloba = options.disableGlobal,
-      disableGlobal = _options$disableGloba === void 0 ? false : _options$disableGloba;
-      options.productionPrefix;
-      var _options$seed = options.seed,
+      disableGlobal = _options$disableGloba === void 0 ? false : _options$disableGloba,
+      _options$productionPr = options.productionPrefix,
+      _options$seed = options.seed,
       seed = _options$seed === void 0 ? '' : _options$seed;
   var seedPrefix = seed === '' ? '' : "".concat(seed, "-");
   var ruleCounter = 0;
@@ -1734,9 +1732,9 @@ function warning(condition, message) {
   }
 }
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof$1 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var isBrowser = (typeof window === "undefined" ? "undefined" : _typeof(window)) === "object" && (typeof document === "undefined" ? "undefined" : _typeof(document)) === 'object' && document.nodeType === 9;
+var isBrowser = (typeof window === "undefined" ? "undefined" : _typeof$1(window)) === "object" && (typeof document === "undefined" ? "undefined" : _typeof$1(document)) === 'object' && document.nodeType === 9;
 
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {
@@ -1821,7 +1819,7 @@ function createRule(name, decl, options) {
   if (rule) return rule; // It is an at-rule and it has no instance.
 
   if (name[0] === '@') {
-    warning(false, "[JSS] Unknown rule " + name) ;
+     warning(false, "[JSS] Unknown rule " + name) ;
   }
 
   return null;
@@ -1914,7 +1912,7 @@ function toCss(selector, style, options) {
 
           if (value != null) {
             if (result) result += '\n';
-            result += "" + indentStr(prop + ": " + toCssValue(value) + ";", indent);
+            result += indentStr(prop + ": " + toCssValue(value) + ";", indent);
           }
         }
       }
@@ -1925,7 +1923,7 @@ function toCss(selector, style, options) {
 
         if (_value != null) {
           if (result) result += '\n';
-          result += "" + indentStr(_prop + ": " + toCssValue(_value) + ";", indent);
+          result += indentStr(_prop + ": " + toCssValue(_value) + ";", indent);
         }
       }
     }
@@ -1936,7 +1934,7 @@ function toCss(selector, style, options) {
 
     if (_value2 != null && _prop2 !== 'fallbacks') {
       if (result) result += '\n';
-      result += "" + indentStr(_prop2 + ": " + toCssValue(_value2) + ";", indent);
+      result += indentStr(_prop2 + ": " + toCssValue(_value2) + ";", indent);
     }
   } // Allow empty style in this case, because properties will be added dynamically.
 
@@ -2008,7 +2006,7 @@ function () {
     var sheet = this.options.sheet;
 
     if (sheet && sheet.attached) {
-      warning(false, '[JSS] Rule is not linked. Missing sheet option "link: true".') ;
+       warning(false, '[JSS] Rule is not linked. Missing sheet option "link: true".') ;
     }
 
     return this;
@@ -2257,7 +2255,7 @@ function () {
       this.name = nameMatch[1];
     } else {
       this.name = 'noname';
-      warning(false, "[JSS] Bad keyframes name " + key) ;
+       warning(false, "[JSS] Bad keyframes name " + key) ;
     }
 
     this.key = this.type + "-" + this.name;
@@ -2305,16 +2303,16 @@ function () {
   return KeyframesRule;
 }();
 var keyRegExp$1 = /@keyframes\s+/;
-var refRegExp$1 = /\$([\w-]+)/g;
+var refRegExp = /\$([\w-]+)/g;
 
 var findReferencedKeyframe = function findReferencedKeyframe(val, keyframes) {
   if (typeof val === 'string') {
-    return val.replace(refRegExp$1, function (match, name) {
+    return val.replace(refRegExp, function (match, name) {
       if (name in keyframes) {
         return keyframes[name];
       }
 
-      warning(false, "[JSS] Referenced keyframes rule \"" + name + "\" is not defined.") ;
+       warning(false, "[JSS] Referenced keyframes rule \"" + name + "\" is not defined.") ;
       return match;
     });
   }
@@ -2539,7 +2537,7 @@ var pluginSimpleRule = {
   }
 };
 
-var plugins$1 = [pluginStyleRule, pluginConditionalRule, plugin, pluginKeyframeRule, pluginFontFaceRule, pluginViewportRule, pluginSimpleRule];
+var plugins = [pluginStyleRule, pluginConditionalRule, plugin, pluginKeyframeRule, pluginFontFaceRule, pluginViewportRule, pluginSimpleRule];
 
 var defaultUpdateOptions = {
   process: true
@@ -3115,7 +3113,7 @@ function () {
         if (name in registry) {
           registry[name].push(plugin[name]);
         } else {
-          warning(false, "[JSS] Unknown hook \"" + name + "\".") ;
+           warning(false, "[JSS] Unknown hook \"" + name + "\".") ;
         }
       }
 
@@ -3267,11 +3265,12 @@ var createGenerateId = function createGenerateId(options) {
   }
 
   var ruleCounter = 0;
-  return function (rule, sheet) {
+
+  var generateId = function generateId(rule, sheet) {
     ruleCounter += 1;
 
     if (ruleCounter > maxRules) {
-      warning(false, "[JSS] You might have a memory leak. Rule counter is at " + ruleCounter + ".") ;
+       warning(false, "[JSS] You might have a memory leak. Rule counter is at " + ruleCounter + ".") ;
     }
 
     var jssId = '';
@@ -3294,12 +3293,14 @@ var createGenerateId = function createGenerateId(options) {
 
     return prefix + rule.key + "-" + moduleId + (jssId ? "-" + jssId : '') + "-" + ruleCounter;
   };
+
+  return generateId;
 };
 
 /**
  * Cache the value from the first time a function is called.
  */
-var memoize$1 = function memoize(fn) {
+var memoize = function memoize(fn) {
   var value;
   return function () {
     if (!value) value = fn();
@@ -3366,7 +3367,7 @@ var removeProperty = function removeProperty(cssRule, prop) {
       cssRule.style.removeProperty(prop);
     }
   } catch (err) {
-    warning(false, "[JSS] DOMException \"" + err.message + "\" was thrown. Tried to remove property \"" + prop + "\".") ;
+     warning(false, "[JSS] DOMException \"" + err.message + "\" was thrown. Tried to remove property \"" + prop + "\".") ;
   }
 };
 
@@ -3385,7 +3386,7 @@ var setSelector = function setSelector(cssRule, selectorText) {
  */
 
 
-var getHead = memoize$1(function () {
+var getHead = memoize(function () {
   return document.querySelector('head');
 });
 /**
@@ -3481,7 +3482,7 @@ function findPrevNode(options) {
     // bad specificity issues may appear.
 
 
-    warning(false, "[JSS] Insertion point \"" + insertionPoint + "\" not found.") ;
+     warning(false, "[JSS] Insertion point \"" + insertionPoint + "\" not found.") ;
   }
 
   return false;
@@ -3505,7 +3506,7 @@ function insertStyle(style, options) {
     // https://stackoverflow.com/questions/41328728/force-casting-in-flow
     var insertionPointElement = insertionPoint;
     var parentNode = insertionPointElement.parentNode;
-    if (parentNode) parentNode.insertBefore(style, insertionPointElement.nextSibling);else warning(false, '[JSS] Insertion point is not in the DOM.') ;
+    if (parentNode) parentNode.insertBefore(style, insertionPointElement.nextSibling);else  warning(false, '[JSS] Insertion point is not in the DOM.') ;
     return;
   }
 
@@ -3516,7 +3517,7 @@ function insertStyle(style, options) {
  */
 
 
-var getNonce = memoize$1(function () {
+var getNonce = memoize(function () {
   var node = document.querySelector('meta[property="csp-nonce"]');
   return node ? node.getAttribute('content') : null;
 });
@@ -3533,7 +3534,7 @@ var _insertRule = function insertRule(container, rule, index) {
         _c.appendRule(rule);
       }
   } catch (err) {
-    warning(false, "[JSS] " + err.message) ;
+     warning(false, "[JSS] " + err.message) ;
     return false;
   }
 
@@ -3763,7 +3764,7 @@ var Jss =
 function () {
   function Jss(options) {
     this.id = instanceCounter++;
-    this.version = "10.6.0";
+    this.version = "10.7.1";
     this.plugins = new PluginsRegistry();
     this.options = {
       id: {
@@ -3777,8 +3778,8 @@ function () {
       minify: false
     });
 
-    for (var i = 0; i < plugins$1.length; i++) {
-      this.plugins.use(plugins$1[i], {
+    for (var i = 0; i < plugins.length; i++) {
+      this.plugins.use(plugins[i], {
         queue: 'internal'
       });
     }
@@ -3966,7 +3967,7 @@ var create = function create(options) {
  * A global Jss instance.
  */
 
-create();
+var jss = create();
 
 var now = Date.now();
 var fnValuesNs = "fnValues" + now;
@@ -4013,7 +4014,7 @@ var functionPlugin = function functionPlugin() {
         {
           for (var prop in styleRule.style) {
             if (typeof styleRule.style[prop] === 'function') {
-              warning(false, '[JSS] Function values inside function rules are not supported.') ;
+               warning(false, '[JSS] Function values inside function rules are not supported.') ;
               break;
             }
           }
@@ -4124,10 +4125,10 @@ function () {
   return GlobalPrefixedRule;
 }();
 
-var separatorRegExp$1 = /\s*,\s*/g;
+var separatorRegExp = /\s*,\s*/g;
 
 function addScope(selector, scope) {
-  var parts = selector.split(separatorRegExp$1);
+  var parts = selector.split(separatorRegExp);
   var scoped = '';
 
   for (var i = 0; i < parts.length; i++) {
@@ -4213,9 +4214,9 @@ function jssGlobal() {
   };
 }
 
-var separatorRegExp = /\s*,\s*/g;
+var separatorRegExp$1 = /\s*,\s*/g;
 var parentRegExp = /&/g;
-var refRegExp = /\$([\w-]+)/g;
+var refRegExp$1 = /\$([\w-]+)/g;
 /**
  * Convert nested rules to separate, remove them from original styles.
  *
@@ -4234,14 +4235,14 @@ function jssNested() {
         return rule.selector;
       }
 
-      warning(false, "[JSS] Could not find the referenced rule \"" + key + "\" in \"" + (container.options.meta || container.toString()) + "\".") ;
+       warning(false, "[JSS] Could not find the referenced rule \"" + key + "\" in \"" + (container.options.meta || container.toString()) + "\".") ;
       return key;
     };
   }
 
   function replaceParentRefs(nestedProp, parentProp) {
-    var parentSelectors = parentProp.split(separatorRegExp);
-    var nestedSelectors = nestedProp.split(separatorRegExp);
+    var parentSelectors = parentProp.split(separatorRegExp$1);
+    var nestedSelectors = nestedProp.split(separatorRegExp$1);
     var result = '';
 
     for (var i = 0; i < parentSelectors.length; i++) {
@@ -4296,7 +4297,7 @@ function jssNested() {
 
         if (!replaceRef) replaceRef = getReplaceRef(container, sheet); // Replace all $refs.
 
-        selector = selector.replace(refRegExp, replaceRef);
+        selector = selector.replace(refRegExp$1, replaceRef);
         container.addRule(selector, style[prop], _extends({}, options, {
           selector: selector
         }));
@@ -4325,19 +4326,19 @@ function jssNested() {
 /* eslint-disable no-var, prefer-template */
 var uppercasePattern = /[A-Z]/g;
 var msPattern = /^ms-/;
-var cache$2 = {};
+var cache = {};
 
 function toHyphenLower(match) {
   return '-' + match.toLowerCase()
 }
 
 function hyphenateStyleName(name) {
-  if (cache$2.hasOwnProperty(name)) {
-    return cache$2[name]
+  if (cache.hasOwnProperty(name)) {
+    return cache[name]
   }
 
   var hName = name.replace(uppercasePattern, toHyphenLower);
-  return (cache$2[name] = msPattern.test(hName) ? '-' + hName : hName)
+  return (cache[name] = msPattern.test(hName) ? '-' + hName : hName)
 }
 
 /**
@@ -4665,7 +4666,7 @@ function _arrayWithoutHoles(arr) {
 }
 
 function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
 
 function _unsupportedIterableToArray(o, minLen) {
@@ -4687,7 +4688,7 @@ function _toConsumableArray(arr) {
 
 // Export javascript style and css style vendor prefixes.
 var js = '';
-var css$1 = '';
+var css = '';
 var vendor = '';
 var browser = '';
 var isTouch = isBrowser && 'ontouchstart' in document.documentElement; // We should not do anything if required serverside.
@@ -4703,27 +4704,27 @@ if (isBrowser) {
   };
 
   var _document$createEleme = document.createElement('p'),
-      style$1 = _document$createEleme.style;
+      style = _document$createEleme.style;
 
   var testProp = 'Transform';
 
   for (var key in jsCssMap) {
-    if (key + testProp in style$1) {
+    if (key + testProp in style) {
       js = key;
-      css$1 = jsCssMap[key];
+      css = jsCssMap[key];
       break;
     }
   } // Correctly detect the Edge browser.
 
 
-  if (js === 'Webkit' && 'msHyphens' in style$1) {
+  if (js === 'Webkit' && 'msHyphens' in style) {
     js = 'ms';
-    css$1 = jsCssMap.ms;
+    css = jsCssMap.ms;
     browser = 'edge';
   } // Correctly detect the Safari browser.
 
 
-  if (js === 'Webkit' && '-apple-trailing-word' in style$1) {
+  if (js === 'Webkit' && '-apple-trailing-word' in style) {
     vendor = 'apple';
   }
 }
@@ -4737,7 +4738,7 @@ if (isBrowser) {
 
 var prefix = {
   js: js,
-  css: css$1,
+  css: css,
   vendor: vendor,
   browser: browser,
   isTouch: isTouch
@@ -4861,7 +4862,7 @@ var textOrientation = {
 
 // https://caniuse.com/#search=transform
 
-var transform$1 = {
+var transform = {
   noPrefill: ['transform'],
   supportedProperty: function supportedProperty(prop, style, options) {
     if (prop !== 'transform') return false;
@@ -5080,13 +5081,13 @@ var flex2009 = {
 // 'flex2009' going after 'flex2012'.
 // 'prefixed' going after 'unprefixed'
 
-var plugins = [appearence, colorAdjust, mask, textOrientation, transform$1, transition, writingMode, userSelect, breakPropsOld, inlineLogicalOld, unprefixed, prefixed, scrollSnap, overscrollBehavior, flex2012, flex2009];
-var propertyDetectors = plugins.filter(function (p) {
+var plugins$1 = [appearence, colorAdjust, mask, textOrientation, transform, transition, writingMode, userSelect, breakPropsOld, inlineLogicalOld, unprefixed, prefixed, scrollSnap, overscrollBehavior, flex2012, flex2009];
+var propertyDetectors = plugins$1.filter(function (p) {
   return p.supportedProperty;
 }).map(function (p) {
   return p.supportedProperty;
 });
-var noPrefill = plugins.filter(function (p) {
+var noPrefill = plugins$1.filter(function (p) {
   return p.noPrefill;
 }).reduce(function (a, p) {
   a.push.apply(a, _toConsumableArray(p.noPrefill));
@@ -5094,7 +5095,7 @@ var noPrefill = plugins.filter(function (p) {
 }, []);
 
 var el;
-var cache = {};
+var cache$1 = {};
 
 if (isBrowser) {
   el = document.createElement('p'); // We test every property on vendor prefix requirement.
@@ -5109,13 +5110,13 @@ if (isBrowser) {
 
   for (var key$1 in computed) {
     // eslint-disable-next-line no-restricted-globals
-    if (!isNaN(key$1)) cache[computed[key$1]] = computed[key$1];
+    if (!isNaN(key$1)) cache$1[computed[key$1]] = computed[key$1];
   } // Properties that cannot be correctly detected using the
   // cache prefill method.
 
 
   noPrefill.forEach(function (x) {
-    return delete cache[x];
+    return delete cache$1[x];
   });
 }
 /**
@@ -5137,8 +5138,8 @@ function supportedProperty(prop, options) {
   // For server-side rendering.
   if (!el) return prop; // Remove cache for benchmark tests or return property from the cache.
 
-  if (cache[prop] != null) {
-    return cache[prop];
+  if ( cache$1[prop] != null) {
+    return cache$1[prop];
   } // Check if 'transition' or 'transform' natively supported in browser.
 
 
@@ -5148,9 +5149,9 @@ function supportedProperty(prop, options) {
 
 
   for (var i = 0; i < propertyDetectors.length; i++) {
-    cache[prop] = propertyDetectors[i](prop, el.style, options); // Break loop, if value found.
+    cache$1[prop] = propertyDetectors[i](prop, el.style, options); // Break loop, if value found.
 
-    if (cache[prop]) break;
+    if (cache$1[prop]) break;
   } // Reset styles for current property.
   // Firefox can even throw an error for invalid properties, e.g., "0".
 
@@ -5161,10 +5162,10 @@ function supportedProperty(prop, options) {
     return false;
   }
 
-  return cache[prop];
+  return cache$1[prop];
 }
 
-var cache$1 = {};
+var cache$1$1 = {};
 var transitionProperties = {
   transition: 1,
   'transition-property': 1,
@@ -5216,8 +5217,8 @@ function supportedValue(property, value) {
 
   var cacheKey = property + prefixedValue; // Remove cache for benchmark tests or return value from cache.
 
-  if (cache$1[cacheKey] != null) {
-    return cache$1[cacheKey];
+  if ( cache$1$1[cacheKey] != null) {
+    return cache$1$1[cacheKey];
   } // IE can even throw an error in some cases, for e.g. style.content = 'bar'.
 
 
@@ -5226,7 +5227,7 @@ function supportedValue(property, value) {
     el$1.style[property] = prefixedValue;
   } catch (err) {
     // Return false if value not supported.
-    cache$1[cacheKey] = false;
+    cache$1$1[cacheKey] = false;
     return false;
   } // If 'transition' or 'transition-property' property.
 
@@ -5242,7 +5243,7 @@ function supportedValue(property, value) {
     el$1.style[property] = prefixedValue; // Return false if value not supported.
 
     if (el$1.style[property] === '') {
-      cache$1[cacheKey] = false;
+      cache$1$1[cacheKey] = false;
       return false;
     }
   } // Reset styles for current property.
@@ -5250,8 +5251,8 @@ function supportedValue(property, value) {
 
   el$1.style[property] = ''; // Write current value to cache.
 
-  cache$1[cacheKey] = prefixedValue;
-  return cache$1[cacheKey];
+  cache$1$1[cacheKey] = prefixedValue;
+  return cache$1$1[cacheKey];
 }
 
 /**
@@ -5440,7 +5441,7 @@ function useTheme() {
   return theme;
 }
 
-var jss = create(jssPreset()); // Use a singleton or the provided one by the context.
+var jss$1 = create(jssPreset()); // Use a singleton or the provided one by the context.
 //
 // The counter-based approach doesn't tolerate any mistake.
 // It's much safer to use the same counter everywhere.
@@ -5451,7 +5452,7 @@ var sheetsManager = new Map();
 var defaultOptions = {
   disableGeneration: false,
   generateClassName: generateClassName,
-  jss: jss,
+  jss: jss$1,
   sheetsCache: null,
   sheetsManager: sheetsManager,
   sheetsRegistry: null
@@ -5512,7 +5513,7 @@ function StylesProvider(props) {
     value: context
   }, children);
 }
-StylesProvider.propTypes = {
+ StylesProvider.propTypes = {
   /**
    * Your component tree.
    */
@@ -5576,7 +5577,7 @@ StylesProvider.propTypes = {
 } ;
 
 {
-  StylesProvider.propTypes = exactProp(StylesProvider.propTypes) ;
+   StylesProvider.propTypes = exactProp(StylesProvider.propTypes) ;
 }
 
 /* eslint-disable import/prefer-default-export */
@@ -5608,7 +5609,7 @@ function getStylesCreator(stylesOrCreator) {
   var themingEnabled = typeof stylesOrCreator === 'function';
 
   {
-    if (_typeof$1(stylesOrCreator) !== 'object' && !themingEnabled) {
+    if (_typeof(stylesOrCreator) !== 'object' && !themingEnabled) {
       console.error(['Material-UI: The `styles` argument provided is invalid.', 'You need to provide a function generating the styles or a styles object.'].join('\n'));
     }
   }
@@ -5954,7 +5955,7 @@ var ServerStyleSheets = /*#__PURE__*/function () {
   return ServerStyleSheets;
 }();
 
-var reactIs_development = createCommonjsModule(function (module, exports) {
+var reactIs_development$2 = createCommonjsModule(function (module, exports) {
 
 
 
@@ -6127,10 +6128,10 @@ exports.typeOf = typeOf;
 }
 });
 
-var reactIs = createCommonjsModule(function (module) {
+var reactIs$2 = createCommonjsModule(function (module) {
 
 {
-  module.exports = reactIs_development;
+  module.exports = reactIs_development$2;
 }
 });
 
@@ -6176,12 +6177,12 @@ var MEMO_STATICS = {
   type: true
 };
 var TYPE_STATICS = {};
-TYPE_STATICS[reactIs.ForwardRef] = FORWARD_REF_STATICS;
-TYPE_STATICS[reactIs.Memo] = MEMO_STATICS;
+TYPE_STATICS[reactIs$2.ForwardRef] = FORWARD_REF_STATICS;
+TYPE_STATICS[reactIs$2.Memo] = MEMO_STATICS;
 
 function getStatics(component) {
   // React v16.11 and below
-  if (reactIs.isMemo(component)) {
+  if (reactIs$2.isMemo(component)) {
     return MEMO_STATICS;
   } // React v16.12 and above
 
@@ -6189,7 +6190,7 @@ function getStatics(component) {
   return TYPE_STATICS[component['$$typeof']] || REACT_STATICS;
 }
 
-var defineProperty$1 = Object.defineProperty;
+var defineProperty = Object.defineProperty;
 var getOwnPropertyNames = Object.getOwnPropertyNames;
 var getOwnPropertySymbols = Object.getOwnPropertySymbols;
 var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
@@ -6223,7 +6224,7 @@ function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
 
         try {
           // Avoid failures from read-only properties
-          defineProperty$1(targetComponent, key, descriptor);
+          defineProperty(targetComponent, key, descriptor);
         } catch (e) {}
       }
     }
@@ -6234,7 +6235,7 @@ function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
 
 var hoistNonReactStatics_cjs = hoistNonReactStatics;
 
-function omit$1(input, fields) {
+function omit(input, fields) {
   var output = {};
   Object.keys(input).forEach(function (prop) {
     if (fields.indexOf(prop) === -1) {
@@ -6253,7 +6254,7 @@ function styled(Component) {
     var name = options.name,
         stylesOptions = _objectWithoutProperties(options, ["name"]);
 
-    if (Component === undefined) {
+    if ( Component === undefined) {
       throw new Error(['You are calling styled(Component)(style) with an undefined component.', 'You may have forgotten to import it.'].join('\n'));
     }
 
@@ -6315,7 +6316,7 @@ function styled(Component) {
       var spread = other;
 
       if (filterProps) {
-        spread = omit$1(spread, filterProps);
+        spread = omit(spread, filterProps);
       }
 
       if (clone) {
@@ -6336,7 +6337,7 @@ function styled(Component) {
         className: className
       }, spread), children);
     });
-    StyledComponent.propTypes = _extends({
+     StyledComponent.propTypes = _extends({
       /**
        * A render function or node.
        */
@@ -6428,7 +6429,7 @@ function ThemeProvider(props) {
   }, children);
 }
 
-ThemeProvider.propTypes = {
+ ThemeProvider.propTypes = {
   /**
    * Your component tree.
    */
@@ -6441,7 +6442,7 @@ ThemeProvider.propTypes = {
 } ;
 
 {
-  ThemeProvider.propTypes = exactProp(ThemeProvider.propTypes) ;
+   ThemeProvider.propTypes = exactProp(ThemeProvider.propTypes) ;
 }
 
 // It does not modify the component passed to it;
@@ -6482,8 +6483,8 @@ var withStyles = function withStyles(stylesOrCreator) {
       classNamePrefix: classNamePrefix
     }, stylesOptions));
     var WithStyles = /*#__PURE__*/react.forwardRef(function WithStyles(props, ref) {
-      props.classes;
-          var innerRef = props.innerRef,
+      var classesProp = props.classes,
+          innerRef = props.innerRef,
           other = _objectWithoutProperties(props, ["classes", "innerRef"]); // The wrapper receives only user supplied props, which could be a subset of
       // the actual props Component might receive due to merging with defaultProps.
       // So copying it here would give us the same result in the wrapper as well.
@@ -6518,7 +6519,7 @@ var withStyles = function withStyles(stylesOrCreator) {
         classes: classes
       }, more));
     });
-    WithStyles.propTypes = {
+     WithStyles.propTypes = {
       /**
        * Override or extend the styles applied to the component.
        */
@@ -6578,7 +6579,7 @@ function withThemeCreator() {
         ref: innerRef || ref
       }, other));
     });
-    WithTheme.propTypes = {
+     WithTheme.propTypes = {
       /**
        * Use that prop to pass a ref to the decorated component.
        * @deprecated
@@ -6613,14 +6614,14 @@ function withThemeCreator() {
 
 var withTheme = withThemeCreator();
 
-/** @license Material-UI v4.11.3
+/** @license Material-UI v4.11.4
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 /* Warning if there are several instances of @material-ui/styles */
 
-if (typeof window !== 'undefined') {
+if ( typeof window !== 'undefined') {
   ponyfillGlobal['__@material-ui/styles-init__'] = ponyfillGlobal['__@material-ui/styles-init__'] || 0;
 
   if (ponyfillGlobal['__@material-ui/styles-init__'] === 1) {
@@ -6650,7 +6651,7 @@ var esm$1 = /*#__PURE__*/Object.freeze({
   withThemeCreator: withThemeCreator
 });
 
-var defineProperty = createCommonjsModule(function (module) {
+var defineProperty$1 = createCommonjsModule(function (module) {
 function _defineProperty(obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
@@ -6737,7 +6738,16 @@ function createBreakpoints(breakpoints) {
     return between(key, key);
   }
 
+  var warnedOnce = false;
+
   function width(key) {
+    {
+      if (!warnedOnce) {
+        warnedOnce = true;
+        console.warn(["Material-UI: The `theme.breakpoints.width` utility is deprecated because it's redundant.", 'Use the `theme.breakpoints.values` instead.'].join('\n'));
+      }
+    }
+
     return values[key];
   }
 
@@ -6762,7 +6772,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = createMixins;
 
-var _defineProperty2 = interopRequireDefault(defineProperty);
+var _defineProperty2 = interopRequireDefault(defineProperty$1);
 
 var _extends3 = interopRequireDefault(_extends_1);
 
@@ -6772,22 +6782,7 @@ function createMixins(breakpoints, spacing, mixins) {
   return (0, _extends3.default)({
     gutters: function gutters() {
       var styles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      // To deprecate in v4.1
-      //       warning(
-      //         false,
-      //         [
-      //           'Material-UI: Theme.mixins.gutters() is deprecated.',
-      //           'You can use the source of the mixin directly:',
-      //           `
-      // paddingLeft: theme.spacing(2),
-      // paddingRight: theme.spacing(2),
-      // [theme.breakpoints.up('sm')]: {
-      //   paddingLeft: theme.spacing(3),
-      //   paddingRight: theme.spacing(3),
-      // },
-      // `,
-      //         ].join('\n'),
-      //       );
+      console.warn(['Material-UI: theme.mixins.gutters() is deprecated.', 'You can use the source of the mixin directly:', "\n      paddingLeft: theme.spacing(2),\n      paddingRight: theme.spacing(2),\n      [theme.breakpoints.up('sm')]: {\n        paddingLeft: theme.spacing(3),\n        paddingRight: theme.spacing(3),\n      },\n      "].join('\n'));
       return (0, _extends3.default)({
         paddingLeft: spacing(2),
         paddingRight: spacing(2)
@@ -7017,6 +7012,7 @@ exports.getContrastRatio = getContrastRatio;
 exports.getLuminance = getLuminance;
 exports.emphasize = emphasize;
 exports.fade = fade;
+exports.alpha = alpha;
 exports.darken = darken;
 exports.lighten = lighten;
 
@@ -7152,7 +7148,7 @@ function decomposeColor(color) {
   var type = color.substring(0, marker);
 
   if (['rgb', 'rgba', 'hsl', 'hsla'].indexOf(type) === -1) {
-    throw new Error("Material-UI: Unsupported `".concat(color, "` color.\nWe support the following formats: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla().") );
+    throw new Error( "Material-UI: Unsupported `".concat(color, "` color.\nWe support the following formats: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla().") );
   }
 
   var values = color.substring(marker + 1, color.length - 1).split(',');
@@ -7242,6 +7238,8 @@ function emphasize(color) {
   var coefficient = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0.15;
   return getLuminance(color) > 0.5 ? darken(color, coefficient) : lighten(color, coefficient);
 }
+
+var warnedOnce = false;
 /**
  * Set the absolute transparency of a color.
  * Any existing alpha values are overwritten.
@@ -7249,10 +7247,32 @@ function emphasize(color) {
  * @param {string} color - CSS color, i.e. one of: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla()
  * @param {number} value - value to set the alpha channel to in the range 0 -1
  * @returns {string} A CSS color string. Hex input values are returned as rgb
+ *
+ * @deprecated
+ * Use `import { alpha } from '@material-ui/core/styles'` instead.
+ */
+
+function fade(color, value) {
+  {
+    if (!warnedOnce) {
+      warnedOnce = true;
+      console.error(['Material-UI: The `fade` color utility was renamed to `alpha` to better describe its functionality.', '', "You should use `import { alpha } from '@material-ui/core/styles'`"].join('\n'));
+    }
+  }
+
+  return alpha(color, value);
+}
+/**
+ * Set the absolute transparency of a color.
+ * Any existing alpha value is overwritten.
+ *
+ * @param {string} color - CSS color, i.e. one of: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla()
+ * @param {number} value - value to set the alpha channel to in the range 0-1
+ * @returns {string} A CSS color string. Hex input values are returned as rgb
  */
 
 
-function fade(color, value) {
+function alpha(color, value) {
   color = decomposeColor(color);
   value = clamp(value);
 
@@ -7502,11 +7522,11 @@ function createPalette(palette) {
     }
 
     if (!color.main) {
-      throw new Error("Material-UI: The color provided to augmentColor(color) is invalid.\nThe color object needs to have a `main` property or a `".concat(mainShade, "` property.") );
+      throw new Error( "Material-UI: The color provided to augmentColor(color) is invalid.\nThe color object needs to have a `main` property or a `".concat(mainShade, "` property.") );
     }
 
     if (typeof color.main !== 'string') {
-      throw new Error("Material-UI: The color provided to augmentColor(color) is invalid.\n`color.main` should be a string, but `".concat(JSON.stringify(color.main), "` was provided instead.\n\nDid you intend to use one of the following approaches?\n\nimport {\xA0green } from \"@material-ui/core/colors\";\n\nconst theme1 = createMuiTheme({ palette: {\n  primary: green,\n} });\n\nconst theme2 = createMuiTheme({ palette: {\n  primary: { main: green[500] },\n} });") );
+      throw new Error( "Material-UI: The color provided to augmentColor(color) is invalid.\n`color.main` should be a string, but `".concat(JSON.stringify(color.main), "` was provided instead.\n\nDid you intend to use one of the following approaches?\n\nimport {\xA0green } from \"@material-ui/core/colors\";\n\nconst theme1 = createTheme({ palette: {\n  primary: green,\n} });\n\nconst theme2 = createTheme({ palette: {\n  primary: { main: green[500] },\n} });") );
     }
 
     addLightOrDark(color, 'light', lightShade, tonalOffset);
@@ -7530,7 +7550,7 @@ function createPalette(palette) {
     }
   }
 
-  var paletteOutput = (0, esm$2.deepmerge)((0, _extends2.default)({
+  var paletteOutput = (0, esm.deepmerge)((0, _extends2.default)({
     // A collection of common colors.
     common: _common.default,
     // The palette type, can be light or dark.
@@ -7582,6 +7602,19 @@ var _objectWithoutProperties2 = interopRequireDefault(objectWithoutProperties);
 
 function round(value) {
   return Math.round(value * 1e5) / 1e5;
+}
+
+var warnedOnce = false;
+
+function roundWithDeprecationWarning(value) {
+  {
+    if (!warnedOnce) {
+      console.warn(['Material-UI: The `theme.typography.round` helper is deprecated.', 'Head to https://material-ui.com/r/migration-v4/#theme for a migration path.'].join('\n'));
+      warnedOnce = true;
+    }
+  }
+
+  return round(value);
 }
 
 var caseAllCaps = {
@@ -7656,10 +7689,10 @@ function createTypography(palette, typography) {
     caption: buildVariant(fontWeightRegular, 12, 1.66, 0.4),
     overline: buildVariant(fontWeightRegular, 12, 2.66, 1, caseAllCaps)
   };
-  return (0, esm$2.deepmerge)((0, _extends2.default)({
+  return (0, esm.deepmerge)((0, _extends2.default)({
     htmlFontSize: htmlFontSize,
     pxToRem: pxToRem,
-    round: round,
+    round: roundWithDeprecationWarning,
     // TODO v5: remove
     fontFamily: fontFamily,
     fontSize: fontSize,
@@ -7707,7 +7740,7 @@ var _default = shape;
 exports.default = _default;
 });
 
-var responsivePropType = propTypes.oneOfType([propTypes.number, propTypes.string, propTypes.object, propTypes.array]) ;
+var responsivePropType =  propTypes.oneOfType([propTypes.number, propTypes.string, propTypes.object, propTypes.array]) ;
 
 function merge(acc, item) {
   if (!item) {
@@ -7752,7 +7785,7 @@ function handleBreakpoints(props, propValue, styleFromPropValue) {
     }, {});
   }
 
-  if (_typeof$1(propValue) === 'object') {
+  if (_typeof(propValue) === 'object') {
     var _themeBreakpoints = props.theme.breakpoints || defaultBreakpoints;
 
     return Object.keys(propValue).reduce(function (acc, breakpoint) {
@@ -7782,7 +7815,7 @@ function breakpoints(styleFunction) {
     return merge(base, extended);
   };
 
-  newStyleFunction.propTypes = _extends({}, styleFunction.propTypes, {
+  newStyleFunction.propTypes =  _extends({}, styleFunction.propTypes, {
     xs: propTypes.object,
     sm: propTypes.object,
     md: propTypes.object,
@@ -7803,7 +7836,7 @@ function getPath(obj, path) {
   }, obj);
 }
 
-function style(options) {
+function style$1(options) {
   var prop = options.prop,
       _options$cssProperty = options.cssProperty,
       cssProperty = _options$cssProperty === void 0 ? options.prop : _options$cssProperty,
@@ -7844,7 +7877,7 @@ function style(options) {
     return handleBreakpoints(props, propValue, styleFromPropValue);
   };
 
-  fn.propTypes = _defineProperty({}, prop, responsivePropType) ;
+  fn.propTypes =  _defineProperty({}, prop, responsivePropType) ;
   fn.filterProps = [prop];
   return fn;
 }
@@ -7881,7 +7914,7 @@ function compose() {
   // };
 
 
-  fn.propTypes = styles.reduce(function (acc, style) {
+  fn.propTypes =  styles.reduce(function (acc, style) {
     return _extends(acc, style.propTypes);
   }, {}) ;
   fn.filterProps = styles.reduce(function (acc, style) {
@@ -7898,42 +7931,42 @@ function getBorder(value) {
   return "".concat(value, "px solid");
 }
 
-var border = style({
+var border = style$1({
   prop: 'border',
   themeKey: 'borders',
   transform: getBorder
 });
-var borderTop = style({
+var borderTop = style$1({
   prop: 'borderTop',
   themeKey: 'borders',
   transform: getBorder
 });
-var borderRight = style({
+var borderRight = style$1({
   prop: 'borderRight',
   themeKey: 'borders',
   transform: getBorder
 });
-var borderBottom = style({
+var borderBottom = style$1({
   prop: 'borderBottom',
   themeKey: 'borders',
   transform: getBorder
 });
-var borderLeft = style({
+var borderLeft = style$1({
   prop: 'borderLeft',
   themeKey: 'borders',
   transform: getBorder
 });
-var borderColor = style({
+var borderColor = style$1({
   prop: 'borderColor',
   themeKey: 'palette'
 });
-var borderRadius = style({
+var borderRadius = style$1({
   prop: 'borderRadius',
   themeKey: 'shape'
 });
 var borders = compose(border, borderTop, borderRight, borderBottom, borderLeft, borderColor, borderRadius);
 
-function omit(input, fields) {
+function omit$1(input, fields) {
   var output = {};
   Object.keys(input).forEach(function (prop) {
     if (fields.indexOf(prop) === -1) {
@@ -7943,27 +7976,57 @@ function omit(input, fields) {
   return output;
 }
 
-function css(styleFunction) {
+var warnedOnce = false;
+
+function styleFunctionSx(styleFunction) {
   var newStyleFunction = function newStyleFunction(props) {
     var output = styleFunction(props);
 
     if (props.css) {
       return _extends({}, merge(output, styleFunction(_extends({
         theme: props.theme
-      }, props.css))), omit(props.css, [styleFunction.filterProps]));
+      }, props.css))), omit$1(props.css, [styleFunction.filterProps]));
+    }
+
+    if (props.sx) {
+      return _extends({}, merge(output, styleFunction(_extends({
+        theme: props.theme
+      }, props.sx))), omit$1(props.sx, [styleFunction.filterProps]));
     }
 
     return output;
   };
 
-  newStyleFunction.propTypes = _extends({}, styleFunction.propTypes, {
-    css: propTypes.object
+  newStyleFunction.propTypes =  _extends({}, styleFunction.propTypes, {
+    css: chainPropTypes(propTypes.object, function (props) {
+      if (!warnedOnce && props.css !== undefined) {
+        warnedOnce = true;
+        return new Error('Material-UI: The `css` prop is deprecated, please use the `sx` prop instead.');
+      }
+
+      return null;
+    }),
+    sx: propTypes.object
   }) ;
-  newStyleFunction.filterProps = ['css'].concat(_toConsumableArray(styleFunction.filterProps));
+  newStyleFunction.filterProps = ['css', 'sx'].concat(_toConsumableArray(styleFunction.filterProps));
   return newStyleFunction;
 }
+/**
+ *
+ * @deprecated
+ * The css style function is deprecated. Use the `styleFunctionSx` instead.
+ */
 
-var displayPrint = style({
+
+function css$1(styleFunction) {
+  {
+    console.warn('Material-UI: The `css` function is deprecated. Use the `styleFunctionSx` instead.');
+  }
+
+  return styleFunctionSx(styleFunction);
+}
+
+var displayPrint = style$1({
   prop: 'displayPrint',
   cssProperty: false,
   transform: function transform(value) {
@@ -7974,178 +8037,178 @@ var displayPrint = style({
     };
   }
 });
-var displayRaw = style({
+var displayRaw = style$1({
   prop: 'display'
 });
-var overflow = style({
+var overflow = style$1({
   prop: 'overflow'
 });
-var textOverflow = style({
+var textOverflow = style$1({
   prop: 'textOverflow'
 });
-var visibility = style({
+var visibility = style$1({
   prop: 'visibility'
 });
-var whiteSpace = style({
+var whiteSpace = style$1({
   prop: 'whiteSpace'
 });
 var display = compose(displayPrint, displayRaw, overflow, textOverflow, visibility, whiteSpace);
 
-var flexBasis = style({
+var flexBasis = style$1({
   prop: 'flexBasis'
 });
-var flexDirection = style({
+var flexDirection = style$1({
   prop: 'flexDirection'
 });
-var flexWrap = style({
+var flexWrap = style$1({
   prop: 'flexWrap'
 });
-var justifyContent = style({
+var justifyContent = style$1({
   prop: 'justifyContent'
 });
-var alignItems = style({
+var alignItems = style$1({
   prop: 'alignItems'
 });
-var alignContent = style({
+var alignContent = style$1({
   prop: 'alignContent'
 });
-var order = style({
+var order = style$1({
   prop: 'order'
 });
-var flex = style({
+var flex = style$1({
   prop: 'flex'
 });
-var flexGrow = style({
+var flexGrow = style$1({
   prop: 'flexGrow'
 });
-var flexShrink = style({
+var flexShrink = style$1({
   prop: 'flexShrink'
 });
-var alignSelf = style({
+var alignSelf = style$1({
   prop: 'alignSelf'
 });
-var justifyItems = style({
+var justifyItems = style$1({
   prop: 'justifyItems'
 });
-var justifySelf = style({
+var justifySelf = style$1({
   prop: 'justifySelf'
 });
 var flexbox = compose(flexBasis, flexDirection, flexWrap, justifyContent, alignItems, alignContent, order, flex, flexGrow, flexShrink, alignSelf, justifyItems, justifySelf);
 
-var gridGap = style({
+var gridGap = style$1({
   prop: 'gridGap'
 });
-var gridColumnGap = style({
+var gridColumnGap = style$1({
   prop: 'gridColumnGap'
 });
-var gridRowGap = style({
+var gridRowGap = style$1({
   prop: 'gridRowGap'
 });
-var gridColumn = style({
+var gridColumn = style$1({
   prop: 'gridColumn'
 });
-var gridRow = style({
+var gridRow = style$1({
   prop: 'gridRow'
 });
-var gridAutoFlow = style({
+var gridAutoFlow = style$1({
   prop: 'gridAutoFlow'
 });
-var gridAutoColumns = style({
+var gridAutoColumns = style$1({
   prop: 'gridAutoColumns'
 });
-var gridAutoRows = style({
+var gridAutoRows = style$1({
   prop: 'gridAutoRows'
 });
-var gridTemplateColumns = style({
+var gridTemplateColumns = style$1({
   prop: 'gridTemplateColumns'
 });
-var gridTemplateRows = style({
+var gridTemplateRows = style$1({
   prop: 'gridTemplateRows'
 });
-var gridTemplateAreas = style({
+var gridTemplateAreas = style$1({
   prop: 'gridTemplateAreas'
 });
-var gridArea = style({
+var gridArea = style$1({
   prop: 'gridArea'
 });
 var grid = compose(gridGap, gridColumnGap, gridRowGap, gridColumn, gridRow, gridAutoFlow, gridAutoColumns, gridAutoRows, gridTemplateColumns, gridTemplateRows, gridTemplateAreas, gridArea);
 
-var color = style({
+var color = style$1({
   prop: 'color',
   themeKey: 'palette'
 });
-var bgcolor = style({
+var bgcolor = style$1({
   prop: 'bgcolor',
   cssProperty: 'backgroundColor',
   themeKey: 'palette'
 });
 var palette = compose(color, bgcolor);
 
-var position = style({
+var position = style$1({
   prop: 'position'
 });
-var zIndex = style({
+var zIndex = style$1({
   prop: 'zIndex',
   themeKey: 'zIndex'
 });
-var top = style({
+var top = style$1({
   prop: 'top'
 });
-var right = style({
+var right = style$1({
   prop: 'right'
 });
-var bottom = style({
+var bottom = style$1({
   prop: 'bottom'
 });
-var left = style({
+var left = style$1({
   prop: 'left'
 });
 var positions = compose(position, zIndex, top, right, bottom, left);
 
-var boxShadow = style({
+var boxShadow = style$1({
   prop: 'boxShadow',
   themeKey: 'shadows'
 });
 
-function transform(value) {
+function transform$1(value) {
   return value <= 1 ? "".concat(value * 100, "%") : value;
 }
 
-var width = style({
+var width = style$1({
   prop: 'width',
-  transform: transform
+  transform: transform$1
 });
-var maxWidth = style({
+var maxWidth = style$1({
   prop: 'maxWidth',
-  transform: transform
+  transform: transform$1
 });
-var minWidth = style({
+var minWidth = style$1({
   prop: 'minWidth',
-  transform: transform
+  transform: transform$1
 });
-var height = style({
+var height = style$1({
   prop: 'height',
-  transform: transform
+  transform: transform$1
 });
-var maxHeight = style({
+var maxHeight = style$1({
   prop: 'maxHeight',
-  transform: transform
+  transform: transform$1
 });
-var minHeight = style({
+var minHeight = style$1({
   prop: 'minHeight',
-  transform: transform
+  transform: transform$1
 });
-var sizeWidth = style({
+var sizeWidth = style$1({
   prop: 'size',
   cssProperty: 'width',
-  transform: transform
+  transform: transform$1
 });
-var sizeHeight = style({
+var sizeHeight = style$1({
   prop: 'size',
   cssProperty: 'height',
-  transform: transform
+  transform: transform$1
 });
-var boxSizing = style({
+var boxSizing = style$1({
   prop: 'boxSizing'
 });
 var sizing = compose(width, maxWidth, minWidth, height, maxHeight, minHeight, boxSizing);
@@ -8155,14 +8218,17 @@ function _arrayWithHoles(arr) {
 }
 
 function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+  var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
+
+  if (_i == null) return;
   var _arr = [];
   var _n = true;
   var _d = false;
-  var _e = undefined;
+
+  var _s, _e;
 
   try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
       _arr.push(_s.value);
 
       if (i && _arr.length === i) break;
@@ -8189,7 +8255,7 @@ function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
 
-function memoize(fn) {
+function memoize$1(fn) {
   var cache = {};
   return function (arg) {
     if (cache[arg] === undefined) {
@@ -8221,7 +8287,7 @@ var aliases = {
 // From 300,000 ops/sec
 // To 350,000 ops/sec
 
-var getCssProperties = memoize(function (prop) {
+var getCssProperties = memoize$1(function (prop) {
   // It's not a shorthand notation.
   if (prop.length > 2) {
     if (aliases[prop]) {
@@ -8328,51 +8394,51 @@ function spacing(props) {
   }).reduce(merge, {});
 }
 
-spacing.propTypes = spacingKeys.reduce(function (obj, key) {
+spacing.propTypes =  spacingKeys.reduce(function (obj, key) {
   obj[key] = responsivePropType;
   return obj;
 }, {}) ;
 spacing.filterProps = spacingKeys;
 
-var fontFamily = style({
+var fontFamily = style$1({
   prop: 'fontFamily',
   themeKey: 'typography'
 });
-var fontSize = style({
+var fontSize = style$1({
   prop: 'fontSize',
   themeKey: 'typography'
 });
-var fontStyle = style({
+var fontStyle = style$1({
   prop: 'fontStyle',
   themeKey: 'typography'
 });
-var fontWeight = style({
+var fontWeight = style$1({
   prop: 'fontWeight',
   themeKey: 'typography'
 });
-var letterSpacing = style({
+var letterSpacing = style$1({
   prop: 'letterSpacing'
 });
-var lineHeight = style({
+var lineHeight = style$1({
   prop: 'lineHeight'
 });
-var textAlign = style({
+var textAlign = style$1({
   prop: 'textAlign'
 });
 var typography = compose(fontFamily, fontSize, fontStyle, fontWeight, letterSpacing, lineHeight, textAlign);
 
-/** @license Material-UI v4.11.3
+/** @license Material-UI v4.12.1
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 
-var esm = /*#__PURE__*/Object.freeze({
+var esm$2 = /*#__PURE__*/Object.freeze({
   __proto__: null,
   borders: borders,
   breakpoints: breakpoints,
   compose: compose,
-  css: css,
+  styleFunctionSx: styleFunctionSx,
   display: display,
   flexbox: flexbox,
   grid: grid,
@@ -8381,7 +8447,7 @@ var esm = /*#__PURE__*/Object.freeze({
   shadows: boxShadow,
   sizing: sizing,
   spacing: spacing,
-  style: style,
+  style: style$1,
   typography: typography,
   border: border,
   borderTop: borderTop,
@@ -8390,6 +8456,7 @@ var esm = /*#__PURE__*/Object.freeze({
   borderLeft: borderLeft,
   borderColor: borderColor,
   borderRadius: borderRadius,
+  css: css$1,
   flexBasis: flexBasis,
   flexDirection: flexDirection,
   flexWrap: flexWrap,
@@ -8464,7 +8531,7 @@ function createSpacing() {
   // https://material.io/design/layout/understanding-layout.html#usage
 
 
-  var transform = (0, esm.createUnarySpacing)({
+  var transform = (0, esm$2.createUnarySpacing)({
     spacing: spacingInput
   });
 
@@ -8653,16 +8720,17 @@ var _default = zIndex;
 exports.default = _default;
 });
 
-var createMuiTheme_1 = createCommonjsModule(function (module, exports) {
+var createTheme_1 = createCommonjsModule(function (module, exports) {
 
 
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.createMuiTheme = createMuiTheme;
 exports.default = void 0;
 
-var _defineProperty2 = interopRequireDefault(defineProperty);
+var _defineProperty2 = interopRequireDefault(defineProperty$1);
 
 var _objectWithoutProperties2 = interopRequireDefault(objectWithoutProperties);
 
@@ -8686,7 +8754,7 @@ var _transitions = interopRequireDefault(transitions);
 
 var _zIndex = interopRequireDefault(zIndex_1);
 
-function createMuiTheme() {
+function createTheme() {
   var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var _options$breakpoints = options.breakpoints,
       breakpointsInput = _options$breakpoints === void 0 ? {} : _options$breakpoints,
@@ -8701,7 +8769,7 @@ function createMuiTheme() {
   var palette = (0, _createPalette.default)(paletteInput);
   var breakpoints = (0, _createBreakpoints.default)(breakpointsInput);
   var spacing = (0, _createSpacing.default)(spacingInput);
-  var muiTheme = (0, esm$2.deepmerge)({
+  var muiTheme = (0, esm.deepmerge)({
     breakpoints: breakpoints,
     direction: 'ltr',
     mixins: (0, _createMixins.default)(breakpoints, spacing, mixinsInput),
@@ -8723,7 +8791,7 @@ function createMuiTheme() {
   }
 
   muiTheme = args.reduce(function (acc, argument) {
-    return (0, esm$2.deepmerge)(acc, argument);
+    return (0, esm.deepmerge)(acc, argument);
   }, muiTheme);
 
   {
@@ -8759,7 +8827,20 @@ function createMuiTheme() {
   return muiTheme;
 }
 
-var _default = createMuiTheme;
+var warnedOnce = false;
+
+function createMuiTheme() {
+  {
+    if (!warnedOnce) {
+      warnedOnce = true;
+      console.error(['Material-UI: the createMuiTheme function was renamed to createTheme.', '', "You should use `import { createTheme } from '@material-ui/core/styles'`"].join('\n'));
+    }
+  }
+
+  return createTheme.apply(void 0, arguments);
+}
+
+var _default = createTheme;
 exports.default = _default;
 });
 
@@ -8772,9 +8853,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _createMuiTheme = interopRequireDefault(createMuiTheme_1);
+var _createTheme = interopRequireDefault(createTheme_1);
 
-var defaultTheme = (0, _createMuiTheme.default)();
+var defaultTheme = (0, _createTheme.default)();
 var _default = defaultTheme;
 exports.default = _default;
 });
@@ -8804,4 +8885,4 @@ var _default = withStyles;
 exports.default = _default;
 });
 
-export { _extends_1 as _, interopRequireDefault as a, _objectWithoutProperties as b, _extends as c, refType as d, esm$2 as e, _defineProperty as f, deepmerge as g, createUnarySpacing as h, interopRequireWildcard as i, withStyles as j, objectWithoutProperties as o, propTypes as p, require$$4 as r, withStyles_1 as w };
+export { _extends_1 as _, interopRequireDefault as a, _objectWithoutProperties as b, _extends as c, refType as d, esm as e, _defineProperty as f, deepmerge as g, createUnarySpacing as h, interopRequireWildcard as i, withStyles as j, objectWithoutProperties as o, propTypes as p, require$$4 as r, withStyles_1 as w };

@@ -2063,8 +2063,8 @@ function describeUnknownElementTypeFrameInDEV(type, source, ownerFn) {
 }
 
 function describeFiber(fiber) {
-  fiber._debugOwner ? fiber._debugOwner.type : null ;
-  fiber._debugSource ;
+  var owner =  fiber._debugOwner ? fiber._debugOwner.type : null ;
+  var source =  fiber._debugSource ;
 
   switch (fiber.tag) {
     case HostComponent:
@@ -6083,7 +6083,7 @@ var LowPriority = 96;
 var IdlePriority = 95; // NoPriority is the absence of priority. Also React-only.
 
 var NoPriority = 90;
-Scheduler_now(); // If the initial timestamp is reasonably small, use Scheduler's `now` directly.
+var initialTimeMs = Scheduler_now(); // If the initial timestamp is reasonably small, use Scheduler's `now` directly.
 
 var SyncLanePriority = 15;
 var SyncBatchedLanePriority = 14;
@@ -15233,7 +15233,7 @@ function getHostContext() {
 }
 
 function pushHostContext(fiber) {
-  requiredContext(rootInstanceStackCursor.current);
+  var rootInstance = requiredContext(rootInstanceStackCursor.current);
   var context = requiredContext(contextStackCursor$1.current);
   var nextContext = getChildHostContext(context, fiber.type); // Don't push this Fiber's context unless it's unique.
 
@@ -15449,7 +15449,7 @@ function insertNonHydratedInstance(returnFiber, fiber) {
           switch (fiber.tag) {
             case HostComponent:
               var type = fiber.type;
-              fiber.pendingProps;
+              var props = fiber.pendingProps;
               didNotFindHydratableContainerInstance(parentContainer, type);
               break;
 
@@ -15471,7 +15471,7 @@ function insertNonHydratedInstance(returnFiber, fiber) {
           switch (fiber.tag) {
             case HostComponent:
               var _type = fiber.type;
-              fiber.pendingProps;
+              var _props = fiber.pendingProps;
               didNotFindHydratableInstance(parentType, parentProps, parentInstance, _type);
               break;
 
@@ -15499,7 +15499,7 @@ function tryHydrate(fiber, nextInstance) {
     case HostComponent:
       {
         var type = fiber.type;
-        fiber.pendingProps;
+        var props = fiber.pendingProps;
         var instance = canHydrateInstance(nextInstance, type);
 
         if (instance !== null) {
@@ -21731,10 +21731,10 @@ function commitLifeCycles(finishedRoot, current, finishedWork, committedLanes) {
     case Profiler:
       {
         {
-          var _finishedWork$memoize2 = finishedWork.memoizedProps;
-              _finishedWork$memoize2.onCommit;
-              var onRender = _finishedWork$memoize2.onRender;
-          finishedWork.stateNode.effectDuration;
+          var _finishedWork$memoize2 = finishedWork.memoizedProps,
+              onCommit = _finishedWork$memoize2.onCommit,
+              onRender = _finishedWork$memoize2.onRender;
+          var effectDuration = finishedWork.stateNode.effectDuration;
           var commitTime = getCommitTime();
 
           if (typeof onRender === 'function') {
@@ -23128,7 +23128,7 @@ function finishConcurrentRender(root, exitStatus, lanes) {
               // suspended level. Ping the last suspended level to try
               // rendering it again.
               // FIXME: What if the suspended lanes are Idle? Should not restart.
-              requestEventTime();
+              var eventTime = requestEventTime();
               markRootPinged(root, suspendedLanes);
               break;
             } // The render is suspended, it hasn't timed out, and there's no
@@ -26827,11 +26827,11 @@ ReactDOMBlockingRoot.prototype.unmount = function () {
 function createRootImpl(container, tag, options) {
   // Tag is either LegacyRoot or Concurrent Root
   var hydrate = options != null && options.hydrate === true;
-  options != null && options.hydrationOptions || null;
+  var hydrationCallbacks = options != null && options.hydrationOptions || null;
   var mutableSources = options != null && options.hydrationOptions != null && options.hydrationOptions.mutableSources || null;
   var root = createContainer(container, tag, hydrate);
   markContainerAsRoot(root.current, container);
-  container.nodeType;
+  var containerNodeType = container.nodeType;
 
   {
     var rootContainerElement = container.nodeType === COMMENT_NODE ? container.parentNode : container;

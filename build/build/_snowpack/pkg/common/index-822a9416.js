@@ -1,7 +1,7 @@
 import { c as createCommonjsModule, r as react, g as getDefaultExportFromCjs } from './index-08d32ee4.js';
-import { c as _extends, b as _objectWithoutProperties, r as require$$4, p as propTypes, a as interopRequireDefault, _ as _extends_1, o as objectWithoutProperties, i as interopRequireWildcard, w as withStyles_1 } from './withStyles-2b6a4506.js';
-import { u as useFormControl_1 } from './useFormControl-d48f0db1.js';
-import { F as FormControlContext, w as withStyles, f as formControlState, c as capitalize } from './capitalize-86a70430.js';
+import { c as _extends, b as _objectWithoutProperties, r as require$$4, p as propTypes, a as interopRequireDefault, _ as _extends_1, o as objectWithoutProperties, i as interopRequireWildcard, w as withStyles_1 } from './withStyles-0887411d.js';
+import { u as useFormControl_1 } from './useFormControl-35d7dcc7.js';
+import { F as FormControlContext, w as withStyles, f as formControlState, c as capitalize } from './capitalize-fb882d94.js';
 
 var formControlState_1 = createCommonjsModule(function (module, exports) {
 
@@ -84,16 +84,16 @@ var styles = function styles(theme) {
 var FormLabel = /*#__PURE__*/react.forwardRef(function FormLabel(props, ref) {
   var children = props.children,
       classes = props.classes,
-      className = props.className;
-      props.color;
-      var _props$component = props.component,
-      Component = _props$component === void 0 ? 'label' : _props$component;
-      props.disabled;
-      props.error;
-      props.filled;
-      props.focused;
-      props.required;
-      var other = _objectWithoutProperties(props, ["children", "classes", "className", "color", "component", "disabled", "error", "filled", "focused", "required"]);
+      className = props.className,
+      color = props.color,
+      _props$component = props.component,
+      Component = _props$component === void 0 ? 'label' : _props$component,
+      disabled = props.disabled,
+      error = props.error,
+      filled = props.filled,
+      focused = props.focused,
+      required = props.required,
+      other = _objectWithoutProperties(props, ["children", "classes", "className", "color", "component", "disabled", "error", "filled", "focused", "required"]);
 
   var muiFormControl = useFormControl();
   var fcs = formControlState({
@@ -109,7 +109,7 @@ var FormLabel = /*#__PURE__*/react.forwardRef(function FormLabel(props, ref) {
     className: require$$4(classes.asterisk, fcs.error && classes.error)
   }, "\u2009", '*'));
 });
-FormLabel.propTypes = {
+ FormLabel.propTypes = {
   // ----------------------------- Warning --------------------------------
   // | These PropTypes are generated from the TypeScript type definitions |
   // |     To update them edit the d.ts file and run "yarn proptypes"     |
@@ -295,11 +295,11 @@ var InputLabel = /*#__PURE__*/React.forwardRef(function InputLabel(props, ref) {
   var classes = props.classes,
       className = props.className,
       _props$disableAnimati = props.disableAnimation,
-      disableAnimation = _props$disableAnimati === void 0 ? false : _props$disableAnimati;
-      props.margin;
-      var shrinkProp = props.shrink;
-      props.variant;
-      var other = (0, _objectWithoutProperties2.default)(props, ["classes", "className", "disableAnimation", "margin", "shrink", "variant"]);
+      disableAnimation = _props$disableAnimati === void 0 ? false : _props$disableAnimati,
+      margin = props.margin,
+      shrinkProp = props.shrink,
+      variant = props.variant,
+      other = (0, _objectWithoutProperties2.default)(props, ["classes", "className", "disableAnimation", "margin", "shrink", "variant"]);
   var muiFormControl = (0, _useFormControl.default)();
   var shrink = shrinkProp;
 
@@ -328,7 +328,7 @@ var InputLabel = /*#__PURE__*/React.forwardRef(function InputLabel(props, ref) {
     ref: ref
   }, other));
 });
-InputLabel.propTypes = {
+ InputLabel.propTypes = {
   // ----------------------------- Warning --------------------------------
   // | These PropTypes are generated from the TypeScript type definitions |
   // |     To update them edit the d.ts file and run "yarn proptypes"     |

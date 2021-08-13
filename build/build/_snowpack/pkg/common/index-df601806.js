@@ -1,6 +1,6 @@
 import { c as createCommonjsModule, r as react, g as getDefaultExportFromCjs } from './index-08d32ee4.js';
-import { i as interopRequireWildcard, a as interopRequireDefault, _ as _extends_1, o as objectWithoutProperties, p as propTypes, r as require$$4, w as withStyles_1 } from './withStyles-2b6a4506.js';
-import { F as FormControlContext_1, u as useFormControl_1 } from './useFormControl-d48f0db1.js';
+import { i as interopRequireWildcard, a as interopRequireDefault, _ as _extends_1, o as objectWithoutProperties, p as propTypes, r as require$$4, w as withStyles_1 } from './withStyles-0887411d.js';
+import { F as FormControlContext_1, u as useFormControl_1 } from './useFormControl-35d7dcc7.js';
 
 var utils = createCommonjsModule(function (module, exports) {
 
@@ -59,7 +59,7 @@ exports.default = capitalize;
 // We only handle the first word.
 function capitalize(string) {
   if (typeof string !== 'string') {
-    throw new Error("Material-UI: capitalize(string) expects a string argument." );
+    throw new Error( "Material-UI: capitalize(string) expects a string argument." );
   }
 
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -306,7 +306,7 @@ var FormControl = /*#__PURE__*/React.forwardRef(function FormControl(props, ref)
     ref: ref
   }, other), children));
 });
-FormControl.propTypes = {
+ FormControl.propTypes = {
   // ----------------------------- Warning --------------------------------
   // | These PropTypes are generated from the TypeScript type definitions |
   // |     To update them edit the d.ts file and run "yarn proptypes"     |

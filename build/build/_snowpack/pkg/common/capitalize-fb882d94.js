@@ -1,5 +1,5 @@
 import { r as react } from './index-08d32ee4.js';
-import { b as _objectWithoutProperties, c as _extends, f as _defineProperty, g as deepmerge, h as createUnarySpacing, j as withStyles$1 } from './withStyles-2b6a4506.js';
+import { b as _objectWithoutProperties, c as _extends, f as _defineProperty, g as deepmerge, h as createUnarySpacing, j as withStyles$1 } from './withStyles-0887411d.js';
 
 function formControlState(_ref) {
   var props = _ref.props,
@@ -83,7 +83,16 @@ function createBreakpoints(breakpoints) {
     return between(key, key);
   }
 
+  var warnedOnce = false;
+
   function width(key) {
+    {
+      if (!warnedOnce) {
+        warnedOnce = true;
+        console.warn(["Material-UI: The `theme.breakpoints.width` utility is deprecated because it's redundant.", 'Use the `theme.breakpoints.values` instead.'].join('\n'));
+      }
+    }
+
     return values[key];
   }
 
@@ -104,22 +113,7 @@ function createMixins(breakpoints, spacing, mixins) {
   return _extends({
     gutters: function gutters() {
       var styles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      // To deprecate in v4.1
-      //       warning(
-      //         false,
-      //         [
-      //           'Material-UI: Theme.mixins.gutters() is deprecated.',
-      //           'You can use the source of the mixin directly:',
-      //           `
-      // paddingLeft: theme.spacing(2),
-      // paddingRight: theme.spacing(2),
-      // [theme.breakpoints.up('sm')]: {
-      //   paddingLeft: theme.spacing(3),
-      //   paddingRight: theme.spacing(3),
-      // },
-      // `,
-      //         ].join('\n'),
-      //       );
+      console.warn(['Material-UI: theme.mixins.gutters() is deprecated.', 'You can use the source of the mixin directly:', "\n      paddingLeft: theme.spacing(2),\n      paddingRight: theme.spacing(2),\n      [theme.breakpoints.up('sm')]: {\n        paddingLeft: theme.spacing(3),\n        paddingRight: theme.spacing(3),\n      },\n      "].join('\n'));
       return _extends({
         paddingLeft: spacing(2),
         paddingRight: spacing(2)
@@ -364,7 +358,7 @@ function decomposeColor(color) {
   var type = color.substring(0, marker);
 
   if (['rgb', 'rgba', 'hsl', 'hsla'].indexOf(type) === -1) {
-    throw new Error("Material-UI: Unsupported `".concat(color, "` color.\nWe support the following formats: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla().") );
+    throw new Error( "Material-UI: Unsupported `".concat(color, "` color.\nWe support the following formats: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla().") );
   }
 
   var values = color.substring(marker + 1, color.length - 1).split(',');
@@ -638,11 +632,11 @@ function createPalette(palette) {
     }
 
     if (!color.main) {
-      throw new Error("Material-UI: The color provided to augmentColor(color) is invalid.\nThe color object needs to have a `main` property or a `".concat(mainShade, "` property.") );
+      throw new Error( "Material-UI: The color provided to augmentColor(color) is invalid.\nThe color object needs to have a `main` property or a `".concat(mainShade, "` property.") );
     }
 
     if (typeof color.main !== 'string') {
-      throw new Error("Material-UI: The color provided to augmentColor(color) is invalid.\n`color.main` should be a string, but `".concat(JSON.stringify(color.main), "` was provided instead.\n\nDid you intend to use one of the following approaches?\n\nimport {\xA0green } from \"@material-ui/core/colors\";\n\nconst theme1 = createMuiTheme({ palette: {\n  primary: green,\n} });\n\nconst theme2 = createMuiTheme({ palette: {\n  primary: { main: green[500] },\n} });") );
+      throw new Error( "Material-UI: The color provided to augmentColor(color) is invalid.\n`color.main` should be a string, but `".concat(JSON.stringify(color.main), "` was provided instead.\n\nDid you intend to use one of the following approaches?\n\nimport {\xA0green } from \"@material-ui/core/colors\";\n\nconst theme1 = createTheme({ palette: {\n  primary: green,\n} });\n\nconst theme2 = createTheme({ palette: {\n  primary: { main: green[500] },\n} });") );
     }
 
     addLightOrDark(color, 'light', lightShade, tonalOffset);
@@ -702,6 +696,19 @@ function createPalette(palette) {
 
 function round(value) {
   return Math.round(value * 1e5) / 1e5;
+}
+
+var warnedOnce = false;
+
+function roundWithDeprecationWarning(value) {
+  {
+    if (!warnedOnce) {
+      console.warn(['Material-UI: The `theme.typography.round` helper is deprecated.', 'Head to https://material-ui.com/r/migration-v4/#theme for a migration path.'].join('\n'));
+      warnedOnce = true;
+    }
+  }
+
+  return round(value);
 }
 
 var caseAllCaps = {
@@ -779,7 +786,7 @@ function createTypography(palette, typography) {
   return deepmerge(_extends({
     htmlFontSize: htmlFontSize,
     pxToRem: pxToRem,
-    round: round,
+    round: roundWithDeprecationWarning,
     // TODO v5: remove
     fontFamily: fontFamily,
     fontSize: fontSize,
@@ -985,7 +992,7 @@ var zIndex = {
   tooltip: 1500
 };
 
-function createMuiTheme() {
+function createTheme() {
   var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
   var _options$breakpoints = options.breakpoints,
@@ -1060,7 +1067,7 @@ function createMuiTheme() {
   return muiTheme;
 }
 
-var defaultTheme = createMuiTheme();
+var defaultTheme = createTheme();
 
 function withStyles(stylesOrCreator, options) {
   return withStyles$1(stylesOrCreator, _extends({
@@ -1074,7 +1081,7 @@ function withStyles(stylesOrCreator, options) {
 // We only handle the first word.
 function capitalize(string) {
   if (typeof string !== 'string') {
-    throw new Error("Material-UI: capitalize(string) expects a string argument." );
+    throw new Error( "Material-UI: capitalize(string) expects a string argument." );
   }
 
   return string.charAt(0).toUpperCase() + string.slice(1);
