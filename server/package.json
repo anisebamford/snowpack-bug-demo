@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
-    "snowpack-test-build": "file:../build"
+    "express": "^4.17.1"
   }
 }
